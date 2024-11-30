@@ -166,6 +166,24 @@ IRC_SERVER( CLIENT *Client, REQUEST *Req )
 		/* check for existing server with same ID */
 		if( ! Client_CheckID( Client, Req->argv[0] )) return DISCONNECTED;
 
+		if (!Req->prefix) {
+			/* We definitely need a prefix here! */
+			Log(LOG_ALERT, "Got SERVER command without prefix! (on connection %d)",
+			    Client_Conn(Client));
+			Conn_Close(Client_Conn(Client), NULL,
+				   "SERVER command without prefix", true);
+			return DISCONNECTED;
+		}
+
+		if (!Req->prefix) {
+			/* We definitely need a prefix here! */
+			Log(LOG_ALERT, "Got SERVER command without prefix! (on connection %d)",
+			    Client_Conn(Client));
+			Conn_Close(Client_Conn(Client), NULL,
+				   "SERVER command without prefix", true);
+			return DISCONNECTED;
+		}
+
 		from = Client_Search( Req->prefix );
 		if( ! from )
 		{
